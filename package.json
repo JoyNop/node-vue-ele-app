@@ -4,12 +4,13 @@
   "description": "restful api",
   "main": "server.js",
   "scripts": {
-     "start":"node server.js",
-     "server":"nodemon server.js"
+    "start": "node server.js",
+    "server": "nodemon server.js"
   },
   "author": "hanrui",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "mongoose": "^5.3.1"
   }
 }
