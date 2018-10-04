@@ -1,6 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const bodyParser=require("body-Parser");
+const bodyParser=require("body-parser");
+
+ 
 const app = express();
 
 //引入users.js
@@ -14,12 +16,13 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
 //connect to mongodb
-mongoose.connect(db)
+mongoose.connect(db, { useNewUrlParser: true })
     .then(() => console.log("MongoDb connected"))
-    .catch(err => console.log(err));
-app.get("/", (req, res) => {
-    res.send("hello world");
-});
+    .catch(err => console.log(err))
+
+// app.get("/", (req, res) => {
+//     res.send("hello world");
+
 
 //使用routes
 app.use("/api/users", users);
