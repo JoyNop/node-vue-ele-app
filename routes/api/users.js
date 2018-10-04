@@ -2,6 +2,9 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const gravatar = require('gravatar');
+const keys = require('../../config/keys');
+const jwt = require('jsonwebtoken');
+const token = jwt.sign({ foo: 'bar' }, 'shhhhh');
 
 const router = express.Router();
 const User = require("../../models/User");
@@ -25,30 +28,70 @@ router.post("/register", (req, res) => {
     //查询数据库中是否拥有邮箱
     User.findOne({ email: req.body.email }).then((user) => {
         if (user) {
-             return res.status(400).json({ email: "邮箱已被注册" })
-            } else {
+            return res.status(400).json({ email: "邮箱已被注册" })
+        } else {
 
-                const avatar = gravatar.url(req.body.email, {s: '200', r: 'pg', d: 'mm'});
+            const avatar = gravatar.url(req.body.email, { s: '200', r: 'pg', d: 'mm' });
 
-                const NewUser = new User({
-                    name: req.body.name,
-                    email: req.body.email,
-                    avatar,
-                    password: req.body.password
-                })
+            const NewUser = new User({
+                name: req.body.name,
+                email: req.body.email,
+                avatar,
+                password: req.body.password
+            })
 
-                bcrypt.genSalt(10, function (err, salt) {
-                    bcrypt.hash(NewUser.password, salt, (err, hash) => {
-                        if (err) throw err;
-                        NewUser.password = hash;
-                        NewUser.save()
-                            .then(user => res.json(user))
-                            .catch(err => console.log(err));
-                        // Store hash in your password DB.
-                    });
+            bcrypt.genSalt(10, function (err, salt) {
+                bcrypt.hash(NewUser.password, salt, (err, hash) => {
+                    if (err) throw err;
+                    NewUser.password = hash;
+                    NewUser.save()
+                        .then(user => res.json(user))
+                        .catch(err => console.log(err));
+                    // Store hash in your password DB.
                 });
+            });
+        }
+    })
+
+})
+
+
+//$router Post api/users/login
+//@desc  返回请求的token jwt
+//@access public
+router.post("/login", (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    //查询数据库
+    User.findOne({ email })
+        .then(user => {
+            if (!user) {
+                return res.status(404).json({ email: "用户不存在" });
             }
+            //密码匹配
+            bcrypt.compare(password, user.password)
+                .then(isMatch => {
+                    if (isMatch) {
+                        const rule = {
+                            id: user.id,
+                            name: user.name,
+                            avatar: user.avatar,
+                            identity: user.identity
+                        }
+                        // res.json({token:token});
+                        jwt.sign(rule, keys.secretOrKey, { expiresIn: 3600 }, (err, token) => {
+                            if (err) throw err;
+                            res.json({
+                                success: true,
+                                token: 'Bearer ' + token
+                            });
+                        });
+                    } else {
+                        return res.status(400).json({ password: "密码错误" });
+                    }
+                })
         })
 
 })
+
 module.exports = router;
