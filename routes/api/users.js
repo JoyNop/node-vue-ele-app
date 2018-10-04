@@ -1,8 +1,11 @@
 //@login &register
 const express = require("express");
-const router = express.Router();
 const bcrypt = require("bcrypt");
+const gravatar = require('gravatar');
+
+const router = express.Router();
 const User = require("../../models/User");
+
 
 //$router Get api/users/test
 //@desc  返回请求的json数据
@@ -24,10 +27,13 @@ router.post("/register", (req, res) => {
         if (user) {
              return res.status(400).json({ email: "邮箱已被注册" })
             } else {
+
+                const avatar = gravatar.url(req.body.email, {s: '200', r: 'pg', d: 'mm'});
+
                 const NewUser = new User({
                     name: req.body.name,
                     email: req.body.email,
-                   // avatar,
+                    avatar,
                     password: req.body.password
                 })
 
