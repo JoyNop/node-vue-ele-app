@@ -17,7 +17,8 @@ const UserSchema = new Schema({
         required: true
     },
     identity: {
-        type: String
+        type: String,
+        required: true
     },
     avatar: {
         type: String
