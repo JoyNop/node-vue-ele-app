@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const gravatar = require('gravatar');
 const keys = require('../../config/keys');
 const jwt = require('jsonwebtoken');
-const token = jwt.sign({foo: 'bar'}, 'shhhhh');
 const passport = require("passport");
 
 const router = express.Router();

@@ -1,4 +1,4 @@
 module.exports={
-    mongoURI:"mongodb://test:test000@ds121203.mlab.com:21203/restful-api-prod",
+    mongoURI: "mongodb://test:test000@ds149577.mlab.com:49577/node-vue-element",
     secretOrKey: 'secret'
 }
