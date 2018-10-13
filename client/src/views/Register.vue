@@ -107,7 +107,7 @@ export default {
   },
   methods: {
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
+        this.$refs[formName].validate(valid => {
         if (valid) {
           this.$axios
             .post("/api/users/register", this.registerUser)

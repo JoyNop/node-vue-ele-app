@@ -52,6 +52,7 @@ module.exports = {
                 }
             }
         },
-        before: app => { }
+        before: app => {
+        }
     }
 }
