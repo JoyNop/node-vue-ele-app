@@ -105,7 +105,15 @@
             submitForm(formName){
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        alert('submit!');
+                        this.$axios.post("/api/users/register",this.registerUser)
+                        .then(res=>{
+                            //注册成功
+                            this.$message({
+                                message:'账号注册成功！',
+                                type:'success'
+                            });
+                        })
+                        this.$router.push('/login')
                     } else {
                         console.log('error submit!!');
                         return false;
@@ -113,7 +121,6 @@
                 });
             }
         }
-
     };
 </script>
 
