@@ -1,19 +1,18 @@
-import axios from 'axios';
-import {Message, Loading } from 'element-ui';
-import { promises } from 'fs';
+import axios from 'axios'; 
+import {Message, Loading }from 'element-ui'; 
 
 
-let loading;
+let loading; //定义loading变量
 
-function startLoading(){
-    loading=Loading.service({
-        lock:true,
-        text:"拼命加载中",
+function startLoading() {
+    loading = Loading.service( {
+        lock:true, 
+        text:"拼命加载中", 
         background:'rgba(0,0,0,0,7)'
-    });
+    }); 
 }
 
-function endLoading(){
+function endLoading() {
     loading.close();
 }
 
@@ -21,27 +20,27 @@ function endLoading(){
 
 //请求拦截
 
-axios.interceptors.request.use(config=>{
+axios.interceptors.request.use(config =>  {
     //加载动画
-    startLoading();
-    return config;
+    startLoading(); 
+    return config; 
 })
 
 //响应拦截
 
 axios.interceptors.request.use(
-    Response=>{
+    response =>  {
         //结束加载动画
-        endLoading();
+        endLoading(); 
         return Response
-    },
-    error=>{
+    }, 
+    error =>  {
         //错误提醒
-    endLoading();
-    Message.error(error.Response.data);
-    return Promise.reject(error);
+    endLoading(); 
+    Message.error(error.response.data); 
+    return Promise.reject(error); 
     }
     
 )
-export default axios;
+export default axios; 
  
