@@ -43,7 +43,7 @@
                     </el-form-item>
                     <el-form-item class="text-right">
                         <el-button @click="dialog.show=false">取消</el-button>
-                        <el-button type="primary" @click="onSumbit('form')">提交</el-button>
+                        <el-button type="primary" @click="onSubmit('form')">提交</el-button>
                     </el-form-item>
                 </el-form>
             </div>
@@ -71,7 +71,39 @@
                 format_type_list: [
                     "提现",
                     "充值"
-                ]
+                ],
+                form_rules: {
+                    describe: [
+                        {required: true, message: "收支描述不能为空", trigger: "blur"}
+                    ],
+                    income: [
+                        {required: true, message: "收入不能为空", trigger: "blur"}],
+                    expend: [
+                        {required: true, message: "支出不能为空", trigger: "blur"}],
+                    cash: [
+                        {required: true, message: "账户不能为空", trigger: "blur"}
+                    ]
+                }
+            };
+        },
+        methods: {
+            onSubmit(form) {
+                this.$refs[form].validate(valid => {
+                    if (valid) {
+                        //表单数据验证完成之后，提交数据;
+                        const url =
+                            this.dialog.option == "add" ? "add" : `edit/${this.form.id}`;
+                        this.$axios.post(`/api/profile/${url}`, this.form).then(res => {
+                            // 操作成功
+                            this.$message({
+                                message: "保存成功！",
+                                type: "success"
+                            });
+                            this.dialog.show = true;
+                            this.$emit("update");
+                        });
+                    }
+                });
             }
         }
     };
