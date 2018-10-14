@@ -1,8 +1,11 @@
 <template>
     <div class="index">
-        <HeadNav></HeadNav>
         <LeftMenu></LeftMenu>
-        <router-view></router-view>
+        <HeadNav></HeadNav>
+
+        <div class="rightContainer">
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 

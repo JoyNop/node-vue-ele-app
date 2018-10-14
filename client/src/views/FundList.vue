@@ -1,5 +1,67 @@
 <template>
-
+    <el-table
+            v-if="tableData.length > 0"
+            :data="tableData"
+            max-height="450"
+            border
+            style="width: 100%">
+        <el-table-column
+                type="index"
+                label="序号"
+                align='center'
+                width="70">
+        </el-table-column>
+        <el-table-column
+                prop="date"
+                label="创建日期"
+                width="250">
+        </el-table-column>
+        <el-table-column
+                prop="type"
+                label="收支类型"
+                align='center'
+                width="150">
+        </el-table-column>
+        <el-table-column
+                prop="describe"
+                label="收支描述"
+                align='center'
+                width="180">
+        </el-table-column>
+        <el-table-column
+                prop="income"
+                label="收入"
+                align='center'
+                width="170">
+            <template slot-scope="scope">
+                <span style="color:#00d053">+ {{ scope.row.income }}</span>
+            </template>
+        </el-table-column>
+        <el-table-column
+                prop="expend"
+                label="支出"
+                align='center'
+                width="170">
+            <template slot-scope="scope">
+                <span style="color:#f56767">- {{ scope.row.expend }}</span>
+            </template>
+        </el-table-column>
+        <el-table-column
+                prop="cash"
+                label="账户现金"
+                align='center'
+                width="170">
+            <template slot-scope="scope">
+                <span style="color:#4db3ff">{{ scope.row.cash }}</span>
+            </template>
+        </el-table-column>
+        <el-table-column
+                prop="remark"
+                label="备注"
+                align='center'
+                width="220">
+        </el-table-column>
+    </el-table>
 </template>
 
 <script>
@@ -16,9 +78,10 @@
         methods: {
             getProfile() {
                 //获取表格数据
-                this.$axios("/api/profiles")
+                this.$axios
+                    .get("/api/profiles")
                     .then(res => {
-                        console.log(res);
+                        this.tableData = res.data;
                     })
                     .catch(err => console.log(err));
             }
