@@ -7,19 +7,19 @@
             </el-col>
             <el-col :span="6" class="user">
                 <div class="userinfo">
-                    <img src="user.avatar" class="avatar" alt="">
+                    <img :src="user.avatar" class="avatar" alt="">
                     <div class="welcome">
                         <p class="name comename">欢迎</p>
-                        <p class="name avatarname">锐视创想</p>
+                        <p class="name avatarname">{{user.name}}</p>
                     </div>
                     <span class="username">
-                        <!-- 下拉菜单-->
-                        <!--<el-dropdown trigger="click">-->
-                        <!--<el-dropdown-menu>111-->
-                        <!--<el-dropdown-item>23</el-dropdown-item>-->
-                        <!--<el-dropdown-item>23eeee</el-dropdown-item>-->
-                        <!--</el-dropdown-menu>-->
-                        <!--</el-dropdown>-->
+                        <el-dropdown trigger="click" @command="setDialogInfo">
+                            <span class="el-dropdown-link"><i class="el-icon-caret-bottom el-icon--right"></i></span>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item command="info">个人信息</el-dropdown-item>
+                                <el-dropdown-item command="logout">退出</el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
                     </span>
                 </div>
             </el-col>
@@ -29,8 +29,43 @@
 
 <script>
     export default {
-        name: "HeadNav"
-    }
+        name: "HeadNav",
+        computed: {
+            user() {
+                return this.$store.getters.user;
+            }
+        },
+        methods: {
+            setDialogInfo(cmditem) {
+                if (!cmditem) {
+                    console.log("test");
+                    this.$message("菜单选项缺少command属性");
+                    return;
+                }
+                switch (cmditem) {
+                    case "info":
+                        this.showInfoList();
+                        break;
+                    case "logout":
+                        this.logout();
+                        break;
+                }
+            },
+            showInfoList() {
+                // 个人信息
+                this.$router.push("/infoshow");
+            },
+            logout() {
+                // 清除token
+                localStorage.removeItem("eleToken");
+                //设置vuex store
+                this.$store.dispatch("clearCurrentState");
+
+                // 页面跳转
+                this.$router.push("/login");
+            }
+        }
+    };
 </script>
 
 <style scoped>

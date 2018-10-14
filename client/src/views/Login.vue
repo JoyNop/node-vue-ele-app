@@ -2,7 +2,7 @@
     <div class="login">
         <section class="form_container">
             <div class="manage_tip">
-                <span class="title">后台管理系统</span>
+                <span class="title">锐视创想后台管理系统</span>
             </div>
             <el-form :model="loginUser" :rules="rules" class="loginForm" ref="loginForm" label-width="80px">
                 <el-form-item label="邮箱" prop="email">
@@ -81,6 +81,10 @@
                             });
 
                     } else {
+                        this.$message({
+                            message: "登录失败！",
+                            type: "error"
+                        });
                         console.log("error submit!!");
                         return false;
                     }
