@@ -3,9 +3,9 @@ import Router from 'vue-router'
 import Index from './views/Index'
 import Register from './views/Register';
 import Login from './views/Login';
-import NotFound from './views/404';
+import NotFound404 from './views/NotFound404';
 import Home from './views/Home';
-import InfoShow from './views/InfoShow';
+import InfoShow from './views/InfoShow'
 
 
 Vue.use(Router);
@@ -41,8 +41,8 @@ const router = new Router({
         },
         {
             path: '*',
-            name: '404',
-            component: NotFound
+            name: 'notfound404',
+            component: NotFound404
         }
     ]
 });
