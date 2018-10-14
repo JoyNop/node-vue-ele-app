@@ -6,6 +6,7 @@ import Login from './views/Login';
 import NotFound404 from './views/NotFound404';
 import Home from './views/Home';
 import InfoShow from './views/InfoShow'
+import FundList from './views/FundList'
 
 
 Vue.use(Router);
@@ -25,9 +26,9 @@ const router = new Router({
             children: [
                 {path: '', component: Home},
                 {path: '/home', name: 'home', component: Home},
-                {path: '/infoshow', name: 'infoshow', component: InfoShow}
+                {path: '/infoshow', name: 'infoshow', component: InfoShow},
+                {path: '/fundlist', name: 'fundlist', component: FundList}
             ]
-
         },
         {
             path: '/login',
@@ -51,12 +52,12 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
     const isLogin = localStorage.eleToken ? true : false;
-    if (to.path == "/login" || to.path == "register") {
+    if (to.path === "/login" || to.path === "register") {
         next();
     } else {
         isLogin ? next() : next("/login");
     }
-})
+});
 
 export default router
 

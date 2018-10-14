@@ -34,7 +34,7 @@ router.post('/add', passport.authenticate('jwt', {session: false}), (req, res) =
 });
 
 //$router Get api/profiles/:id
-//@desc  获取所有信息
+//@desc 根据ID获取 获取信息
 //@access Private
 router.get(
     '/:id',
@@ -48,6 +48,25 @@ router.get(
             })
             .catch(err => res.status(404).json(err));
     });
+
+
+//$router Get api/profiles/
+//@desc   获取所有信息
+//@access Private
+router.get(
+    '/',
+    passport.authenticate('jwt', {session: false}), (req, res) => {
+        Profile.find()
+            .then(profile => {
+                if (!profile) {
+                    return res.status(404).json("没有任何内容");
+                }
+                res.json(profile);
+            })
+            .catch(err => res.status(404).json(err));
+    });
+
+
 
 //$router Get api/profiles/editor
 //@desc  编辑信息的借口
