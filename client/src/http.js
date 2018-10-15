@@ -35,7 +35,7 @@ axios.interceptors.response.use(response => {
 }, error => {
     // 错误提醒
     endLoading();
-    Message.error(error.response.data);
+    Message.error(error.response.data)
 
     const {status} = error.response;
     if (status === 401) {
