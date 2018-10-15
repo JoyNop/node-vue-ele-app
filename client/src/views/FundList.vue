@@ -22,7 +22,9 @@
                     <el-button type="primary" size="small" icon="search" @click='onScreeoutMoney()'>筛选</el-button>
                 </el-form-item>
                 <el-form-item class="btnRight">
-                    <el-button type="primary" size="small" icon="view" @click='onAddMoney()'>添加</el-button>
+                    <el-button type="primary" size="small" v-if="user.idenitiy==='manager'" icon="view"
+                               @click='onAddMoney()'>添加
+                    </el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -101,7 +103,8 @@
                         align='center'
                         label="操作"
                         fixed="right"
-                        width="180">
+                        width="180"
+                        v-if="user.idenitiy==='manager'">
                     <template slot-scope='scope'>
                         <el-button
                                 type="warning"
@@ -183,6 +186,12 @@
         },
         components: {
             DialogFound
+        },
+        computed: {
+            user() {
+                return this.$store.getters.user;
+            }
+
         },
         created() {
             this.getProfile();
